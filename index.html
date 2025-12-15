@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Noor</title>
+
+<style>
+body{
+  margin:0;
+  font-family:"Segoe UI",sans-serif;
+  background:linear-gradient(135deg,#fff0f5,#ffffff);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.card{
+  background:#ffffff;
+  padding:30px;
+  border-radius:25px;
+  width:90%;
+  max-width:520px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,0.15);
+}
+.teddy{font-size:90px;margin-bottom:15px;}
+h1{color:#ff4d6d;}
+p{color:#444;line-height:1.7;white-space:pre-line;}
+.buttons{
+  margin-top:20px;
+  display:flex;
+  gap:10px;
+}
+button{
+  flex:1;
+  padding:12px;
+  font-size:16px;
+  border:none;
+  border-radius:30px;
+  background:#ff4d6d;
+  color:white;
+  cursor:pointer;
+}
+button.secondary{
+  background:#bbb;
+  color:#333;
+}
+button:hover{transform:scale(1.05);}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 Background Music -->
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8bcb9d6e2.mp3?filename=happy-birthday-piano-116199.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card" id="content"></div>
+
+<script>
+let page = 1;
+let musicStarted = false;
+
+function startMusic(){
+  if(!musicStarted){
+    const m=document.getElementById("bgMusic");
+    m.volume=0.25;
+    m.play().catch(()=>{});
+    musicStarted=true;
+  }
+}
+
+// 🎤 Clear female voice
+function speak(text){
+  const msg=new SpeechSynthesisUtterance(text);
+  msg.rate=0.65;
+  msg.pitch=1.15;
+  const voices=speechSynthesis.getVoices();
+  msg.voice=
+    voices.find(v=>v.name.includes("Samantha")) ||
+    voices.find(v=>v.name.includes("Google UK English Female")) ||
+    voices[0];
+  speechSynthesis.speak(msg);
+}
+
+function navButtons(showPrev=true, showNext=true){
+  return `
+    <div class="buttons">
+      ${showPrev ? `<button class="secondary" onclick="prev()">Previous</button>` : ``}
+      ${showNext ? `<button onclick="next()">Next</button>` : ``}
+    </div>
+  `;
+}
+
+function render(){
+  const c=document.getElementById("content");
+
+  if(page===1){
+    c.innerHTML=`
+      <div class="teddy">🧸</div>
+      <h1>Happy Birthday NOOR 🎂❤️</h1>
+      ${navButtons(false,true)}
+    `;
+    speak("Happy Birthday Noor");
+  }
+
+  if(page===2){
+    c.innerHTML=`
+      <div class="teddy">🧸</div>
+      <p>
+Happy Birthday 🎂
+ Allah apki zindagi ko rehmaton, khushiyon aur sukoon se bhar de. 
+ apka har din umeed, roshni aur achi khabron ke sath shuru ho. 
+ Jo ap dil se chahien wo tumhein mile, 
+ jo apke haq mein behtar ho wo zaroor ap tak aaye. 
+ May God bless you with strong faith, good health, inner peace aur endless reasons to smile. 
+ apki zindagi hamesha khubsurat rahe. 
+ Ameen ✨
+      </p>
+      ${navButtons()}
+    `;
+  }
+
+  if(page===3){
+    c.innerHTML=`
+      <div class="teddy">🧸</div>
+      <p>
+Happy Birthday NOOR the peace of my life 
+
+ap meri zindagi ka wo hissa ho jo lafzon se zyada ehsaas mein aata hai. 
+apki care, apki presence aur apka khayal rakhna meri life ko khamoshi se khoobsurat bana deta hai. 
+Main jaanta hoon ke har baat ka naam dena zaroori nahi hota, 
+lekin itna sach hai ke ap meri duniya mein bohat special jagah rakhti ho. 
+Aaj apke birthday par dua hai ke Allah apko hamesha khush rakhe, 
+sukoon de, aur har wo cheez de jo apko dil halka aur aankhon ko roshan kare. 
+May God bless you, always ✨
+      </p>
+      ${navButtons()}
+    `;
+  }
+
+  if(page===4){
+    c.innerHTML=`
+      <div class="teddy">🧸</div>
+      <p>
+I LOVE YOU SOO MUCH 🫠❤️😭
+
+mere duniya apke around revolve krti apki smile per apki happiness per 
+ap bass happy rha krien apki happiness k liye mein haar cheez kr sakta ❤️🫠 
+bass meko apko khone ya apke dur ho jane ka darr hai😭. 
+when i ever you need me i will be there for you.
+
+mere life mein apki importance aise hai jaise body mein soul ❤️🫠
+Ap meri zindagi ka wo hissa ho jiske baghair sab kuch adhoora lagta hai. 
+apki ek choti si care meri poori thakan utaar deti hai. 
+Mien apki life ka ek hissa hoon ya na hoon, 
+lekin meri poori duniya apse se hi chalti hai. 
+May God bless you, hamesha ✨
+      </p>
+      ${navButtons()}
+    `;
+  }
+
+  if(page===5){
+    c.innerHTML=`
+      <div class="teddy">🧸</div>
+      <h1>
+YEP BIRTHDAY GIRL  
+HAPPY BIRTHDAY TO YOU  
+HAPPY BIRTHDAY TO YOU
+      </h1>
+      <p>
+ALLAH HAFIZ 🫠❤️
+
+FROM:
+ABDULLAH
+      </p>
+      ${navButtons(true,false)}
+    `;
+    speak("Happy Birthday to you. Allah Hafiz. From Abdullah.");
+  }
+}
+
+function next(){
+  startMusic();
+  if(page<5){page++;render();}
+}
+function prev(){
+  if(page>1){page--;render();}
+}
+
+speechSynthesis.onvoiceschanged=()=>{};
+render();
+</script>
+
+</body>
+</html>
